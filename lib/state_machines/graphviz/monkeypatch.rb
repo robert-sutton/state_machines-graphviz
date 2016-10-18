@@ -108,7 +108,9 @@ module StateMachines
     def draw(graph, options = {})
       valid_states = machine.states.by_priority.map {|state| state.name}
       branches.each do |branch|
-        branch.draw(graph, options[:human_name] ? human_name : name, valid_states)
+        txt = options[:human_name] ? human_name : name
+        txt += ' if ' + branch.if_condition.to_s if branch.if_condition.present?
+        branch.draw(graph, txt , valid_states)
       end
 
       true
